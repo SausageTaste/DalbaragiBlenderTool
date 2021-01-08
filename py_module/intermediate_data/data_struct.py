@@ -58,10 +58,12 @@ class Mesh:
         self.m_skeleton_name = str(skeleton_name)
 
     def add_vertex(self, vertex: Vertex) -> None:
+        """
         for i, v in enumerate(self.m_vertices):
             if v == vertex:
                 self.m_indices.append(i)
                 return
+        """
 
         self.m_indices.append(len(self.m_vertices))
         self.m_vertices.append(vertex)
