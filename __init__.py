@@ -1,6 +1,10 @@
+import importlib
+
 import bpy
 from bpy_extras.io_utils import ExportHelper
 from bpy.types import Operator
+
+from . import py_module
 
 
 bl_info = {
@@ -26,7 +30,8 @@ class EmportDalModel(Operator, ExportHelper):
     filename_ext = ".dmd"
 
     def execute(self, context):
-        print("[DAL] Started exporting Dalbaragi model")
+        py_module.blender_interface.parse_blender_scene.parse(bpy.data.collections)
+
         self.report({'INFO'}, "Export done: dmd")
         return {'FINISHED'}
 
@@ -43,6 +48,9 @@ def menu_func_export(self, context):
     self.layout.menu(DalExportSubMenu.bl_idname)
 
 def register():
+    importlib.reload(py_module)
+    py_module.refresh_import()
+
     bpy.utils.register_class(EmportDalModel)
     bpy.utils.register_class(DalExportSubMenu)
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export)
